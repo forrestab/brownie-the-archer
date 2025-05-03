@@ -2,7 +2,11 @@ name: Build and publish a docker image
 
 on:
   push:
-    branches: ["main"]
+    tags: 
+      - "v*"
+    paths-ignore:
+      - "*.md"
+      - "*.yml"
 
 env:
   REGISTRY: ghcr.io
