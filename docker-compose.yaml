@@ -1,23 +1,23 @@
 services:
   ddns:
-    image: favonia/cloudflare-ddns:1
-    container_name: bta_ddns
+    image: favonia/cloudflare-ddns:${DDNS_TAG:-1}
+    container_name: brownie-the-archer-ddns
     restart: always
     read_only: true
     cap_drop: [all]
     security_opt: [no-new-privileges:true]
     environment:
-      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
-      - DOMAINS=${DOMAIN}
-      - PROXIED=true
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN:?err}
+      - DOMAINS=${DOMAIN:?err}
+      - PROXIED=${PROXIED:-true}
       - IP6_PROVIDER=none
 
-  app:
-    image: brownie-the-archer:1.0.0
-    container_name: bta_app
+  www:
+    image: ghcr.io/forrestab/brownie-the-archer:${WWW_TAG:?err}
+    container_name: brownie-the-archer
     restart: always
 
 networks:
   default:
-    name: bta_net
+    name: brownie-the-archer
     external: true
